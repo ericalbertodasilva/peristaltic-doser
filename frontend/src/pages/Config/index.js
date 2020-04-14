@@ -8,7 +8,7 @@ import api from '../../services/api';
 export default function Logon(){
     const [peristalticPumpNumber, peristalticPumpNumberState] = useState();
     const [peristalticPumpRatio, peristalticPumpRatioState] = useState();
-    const [peristalticPumpTempPower, peristalticPumpTempPowerState] = useState();
+    const [peristalticPumpTempOn, peristalticPumpTempOnState] = useState();
     const [peristalticPumpTurn, peristalticPumpTurnState] = useState();
     const history= useHistory();
 
@@ -16,11 +16,11 @@ export default function Logon(){
         e.preventDefault();
 
         try{
-            const response = await api.post('bomb');
-            localStorage.setItem('peristalticPumpNumber',response.peristalticPumpNumber);
-            localStorage.setItem('peristalticPumpRatio',response.peristalticPumpRatio);
-            localStorage.setItem('peristalticPumpTempPower',response.peristalticPumpTempPower);
-            localStorage.setItem('peristalticPumpTurn',response.peristalticPumpTurn);
+            const response = await api.post('bomb', { peristalticPumpNumber, peristalticPumpRatio, peristalticPumpTempOn, peristalticPumpTurn });
+            localStorage.setItem('peristalticPumpNumber', response.peristalticPumpNumber);
+            localStorage.setItem('peristalticPumpRatio', response.peristalticPumpRatio);
+            localStorage.setItem('peristalticPumpTempOn', response.peristalticPumpTempOn);
+            localStorage.setItem('peristalticPumpTurn', response.peristalticPumpTurn);
             alert(`Bomba peristaltica ${peristalticPumpNumber} esta configurada.`);
             history.push('/');
         }catch (err){
@@ -58,8 +58,8 @@ export default function Logon(){
                     <input
                         type="number"
                         placeholder="%"
-                        value={peristalticPumpTempPower}
-                        onChange={e => peristalticPumpTempPowerState( e.target.value )}
+                        value={peristalticPumpTempOn}
+                        onChange={e => peristalticPumpTempOnState( e.target.value )}
                         min="0"
                         max="100"
                     />
@@ -68,8 +68,9 @@ export default function Logon(){
                         value={peristalticPumpTurn}
                         onChange={e => peristalticPumpTurnState( e.target.value )}
                     >
-                        <option value="turnOn">Ligar</option>
-                        <option value="turnOff">Desligar</option>
+                        <option value="">Vazio</option>
+                        <option value="on">Ligar</option>
+                        <option value="off">Desligar</option>
                     </select>
                     <button className="button" type="submit">Configurar</button>
                 </form>
