@@ -1,7 +1,7 @@
 {
-  "name": "Dosador-Peristaltico",
+  "name": "peristaltic-doser-back-end",
   "version": "1.0.0",
-  "description": "Sistema de controle e controle de 4 bombas peristaltica",
+  "description": "Control system of 4 peristaltic pumps",
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/server.js",
@@ -16,6 +16,8 @@
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "knex": "^0.20.13",
+    "serialport": "^8.0.7",
+    "socket.io": "^2.3.0",
     "sqlite3": "^4.1.1"
   },
   "devDependencies": {

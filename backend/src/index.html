@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-08">
+        <title>Arduino node.js</title>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+</html>
+
+<body>
+    <script type="text/javascript">
+        var socket = io();
+        socket.on("dataDevice", (data)=>{
+            console.log(data);
+        })
+
+    </script>
+
+</body>

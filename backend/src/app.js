@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { errors } = require('celebrate');
 const routes = require('./routes');
+//const {io, serialDeviceControlPeristaltic} = require('./device/SerialCommunication');
 
 const app = express();
 
