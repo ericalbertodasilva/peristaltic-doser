@@ -39,7 +39,7 @@ unsigned long _previousMillis = 0;
 unsigned long modDivMinTime;
 unsigned long modDivMinTime100;
 
-void setConfigInit(){
+void setConfigInitPumps(){
   pump1.pin = 3;
   pump1.number = 1;
   pump1.ratio = 0;
@@ -69,8 +69,6 @@ void setConfigInit(){
   getPumpSerial.ratio = 0;
   getPumpSerial.tempOn = 0;
   getPumpSerial.turn = 0;
-
-  setStatusSerial = false;
 
 }
 
@@ -104,8 +102,8 @@ void setConfigPump()
 
   setSerialConfigPeristalticPump();
 
-  s = "<c;"+String(getPumpSerial.number)+";"+String(getPumpSerial.ratio)+";"+String(getPumpSerial.tempOn)+";"+getPumpSerial.turn+">"; 
-  Serial.println(s); 
+  s = "<c>";
+  Serial.print(s);
 }
 
 void setSerialConfigPeristalticPump(){
@@ -136,7 +134,7 @@ void setSerialConfigPeristalticPump(){
     break;
   
   default:
-    Serial.println("Bomb does not exist, try again!")
+    Serial.println("Bomb does not exist, try again!");
     break;
   }
 }
@@ -153,6 +151,7 @@ void getSerialMessage() {
   char c;
 
   while (Serial.available() > 0 && _newMsgReceived == false) {
+    Serial.println("Lendo");
     c = Serial.read();
 
     if (recvInProgress == true) {
@@ -189,7 +188,7 @@ void decodeRequest()
       break;
 
     case 'r':
-      sendAllData();
+      //sendAllData();
       break;
 
     case 'c':
@@ -250,6 +249,4 @@ void loop() {
   }
 
   setPeristalticPumps();
-  
-
 }
