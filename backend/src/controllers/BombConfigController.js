@@ -7,9 +7,9 @@ const SerialPort = require('serialport');
   err => console.error(err)
 )*/
 
-const serialport = new SerialPort('COM5',{
+const serialPort = new SerialPort('COM5',{
     baudRate: 57600,
-    autoOpen: false,
+    parser: SerialPort.parsers.Readline,
   }, 
   function (err) {
     if (err) {
@@ -18,25 +18,13 @@ const serialport = new SerialPort('COM5',{
 });
 
 module.exports = {
-    async create(request, reponse) {
-        const { peristalticPumpNumber, peristalticPumpRatio, peristalticPumpTempOn, peristalticPumpTurn } = request.body;
-        const packageSendSerial = `<c;${peristalticPumpNumber};${peristalticPumpRatio};${peristalticPumpTempOn};${peristalticPumpTurn}>`;
-        const getDataSerialPort = "";
+  async create(request, reponse) {
 
-        
+    const { peristalticPumpNumber, peristalticPumpRatio, peristalticPumpTempOn, peristalticPumpTurn } = request.body;
+    const packageSendSerial = `<c;${peristalticPumpNumber};${peristalticPumpRatio};${peristalticPumpTempOn};${peristalticPumpTurn}>`;
 
-        serialport.open((err)=>{
-          if (err) {
-            return console.log('Error opening port: ', err.message)
-          }
-          setTimeout(() => {
-            serialport.close((err) => {
-              console.log('closed?', err);
-            });
-          }, 1000);
-        });
-
-        serialport.write(packageSendSerial);
-        return reponse.json(packageSendSerial);
-    }
+    serialPort.write(packageSendSerial);
+    
+    return reponse.json(packageSendSerial);
+  }
 };

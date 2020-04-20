@@ -69,8 +69,8 @@ export default function Logon(){
                         onChange={e => peristalticPumpTurnState( e.target.value )}
                     >
                         <option value="">Vazio</option>
-                        <option value="on">Ligar</option>
-                        <option value="off">Desligar</option>
+                        <option value="1">Ligar</option>
+                        <option value="0">Desligar</option>
                     </select>
                     <button className="button" type="submit">Configurar</button>
                 </form>

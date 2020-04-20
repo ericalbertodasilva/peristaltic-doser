@@ -37,7 +37,6 @@ boolean _newMsgReceived = false;
 /*Temp*/
 unsigned long _previousMillis = 0;
 unsigned long modDivMinTime;
-unsigned long modDivMinTime100;
 
 void setConfigInitPumps(){
   pump1.pin = 3;
@@ -81,7 +80,6 @@ void setPins(){
 
 void setConfigPump()
 {
-  String s = "";
   
   char * strtokIndx;
   char tempChars[NUMCHARS];
@@ -100,10 +98,14 @@ void setConfigPump()
   strtokIndx = strtok(NULL, ";");
   getPumpSerial.turn = atoi(strtokIndx);
 
+  getPumpSerial.ratio = map(getPumpSerial.ratio, 0, 100, 0, 255);
+  getPumpSerial.tempOn = map(getPumpSerial.tempOn, 0, 100, 0, 60);
+
   setSerialConfigPeristalticPump();
 
-  s = "<c>";
-  Serial.print(s);
+  String s = "<c;" + String(getPumpSerial.number) + ";" + String(getPumpSerial.ratio) + ";" + String(getPumpSerial.tempOn) + ";" + String(getPumpSerial.turn) + ">";
+  
+  Serial.println(s);
 }
 
 void setSerialConfigPeristalticPump(){
@@ -151,7 +153,6 @@ void getSerialMessage() {
   char c;
 
   while (Serial.available() > 0 && _newMsgReceived == false) {
-    Serial.println("Lendo");
     c = Serial.read();
 
     if (recvInProgress == true) {
@@ -204,40 +205,36 @@ void decodeRequest()
 
 void setPeristalticPumps(){
   modDivMinTime = millis() / 1000 % 60;
-  modDivMinTime100 = modDivMinTime * 100 / 60;
-
-  if((pump1.turn == 1) && (modDivMinTime100 < pump1.tempOn)){
-    digitalWrite(pump1.pin, pump1.ratio);
-  } else {
-    digitalWrite(pump1.pin, 0);
-  }
-
-  if((pump2.turn == 1) && (modDivMinTime100 < pump2.tempOn)){
-    digitalWrite(pump2.pin, pump2.ratio);
-  } else {
-    digitalWrite(pump2.pin, 0);
-  }
-
-  if((pump3.turn == 1) && (modDivMinTime100 < pump3.tempOn)){
-    digitalWrite(pump3.pin, pump3.ratio);
-  } else {
-    digitalWrite(pump3.pin, 0);
-  }
-
-  if((pump4.turn == 1) && (modDivMinTime100 < pump4.tempOn)){
-    digitalWrite(pump4.pin, pump1.ratio);
-  } else {
-    digitalWrite(pump4.pin, 0);
-  }
-
-
+    if((pump1.turn == 1) && (modDivMinTime < pump1.tempOn)){
+      analogWrite(pump1.pin, pump1.ratio);
+    } else {
+      analogWrite(pump1.pin, 0);
+    }
+  
+    if((pump2.turn == 1) && (modDivMinTime < pump2.tempOn)){
+      analogWrite(pump2.pin, pump2.ratio);
+    } else {
+      analogWrite(pump2.pin, 0);
+    }
+  
+    if((pump3.turn == 1) && (modDivMinTime < pump3.tempOn)){
+      analogWrite(pump3.pin, pump3.ratio);
+    } else {
+      analogWrite(pump3.pin, 0);
+    }
+  
+    if((pump4.turn == 1) && (modDivMinTime < pump4.tempOn)){
+      analogWrite(pump4.pin, pump1.ratio);
+    } else {
+      analogWrite(pump4.pin, 0);
+    } 
 }
 
 void setup(){
 
   Serial.begin(57600);
 
-  setPins();
+  //setPins();
   setConfigInitPumps();
 }
 
