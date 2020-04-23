@@ -13,6 +13,7 @@ routes.post('/bomb', celebrate({
         peristalticPumpRatio: Joi.number().min(0).max(100).required(), 
         peristalticPumpTempOn: Joi.number().min(0).max(100).required(), 
         peristalticPumpTurn: Joi.string().required(),
+        peristalticPumpTurningDirection: Joi.string().required(),
     })
 }), BombController.create)
 

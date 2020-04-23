@@ -20,11 +20,10 @@ const serialPort = new SerialPort('COM5',{
 module.exports = {
   async create(request, reponse) {
 
-    const { peristalticPumpNumber, peristalticPumpRatio, peristalticPumpTempOn, peristalticPumpTurn } = request.body;
-    const packageSendSerial = `<c;${peristalticPumpNumber};${peristalticPumpRatio};${peristalticPumpTempOn};${peristalticPumpTurn}>`;
+    const { peristalticPumpNumber, peristalticPumpRatio, peristalticPumpTempOn, peristalticPumpTurn, peristalticPumpTurningDirection } = request.body;
+    const packageSendSerial = `<c;${peristalticPumpNumber};${peristalticPumpRatio};${peristalticPumpTempOn};${peristalticPumpTurn};${peristalticPumpTurningDirection}>`;
 
     serialPort.write(packageSendSerial);
-    
     return reponse.json(packageSendSerial);
   }
 };
