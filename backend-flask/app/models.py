@@ -26,9 +26,22 @@ class Pump(db.Model):
             'registrationDate': self.registration_Date
         }
 
+class Pump_Config(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    status = db.Column(db.Integer, nullable=False)
+    clockwise = db.Column(db.Integer, nullable=False)
+    time_Step = db.Column(db.Integer, nullable=False)
+    pulse_Ratio = db.Column(db.Integer, nullable=False)
+    code_Fault = db.Column(db.Integer, nullable=False)
+    confirmation = db.Column(db.Integer, nullable=False)
+    registration_Date = db.Column(db.DateTime, default=datetime.utcnow)
+    def __repr__(self):
+        return '<Pump_Config id:{}>'.format(self.id)
+
 class Balance(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     id_Balance = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(255), nullable=False)
     status = db.Column(db.Integer, nullable=False)
     scale = db.Column(db.Integer, nullable=False)
     weight = db.Column(db.Integer, nullable=False)
@@ -48,3 +61,14 @@ class Balance(db.Model):
             'CodeFault': self.code_Fault,
             'registrationDate': self.registration_Date
         }
+
+class Balance_Config(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    status = db.Column(db.Integer, nullable=False)
+    scale = db.Column(db.Integer, nullable=False)
+    code_Fault = db.Column(db.Integer, nullable=False)
+    confirmation = db.Column(db.Integer, nullable=False)
+    registration_Date = db.Column(db.DateTime, default=datetime.utcnow)
+    def __repr__(self):
+        return '<Balance_config id:{}>'.format(self.id)
